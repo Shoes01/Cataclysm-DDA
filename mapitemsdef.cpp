@@ -246,7 +246,7 @@ void game::init_mapitems()
 	"hammer", "flashlight", "water_purifier", "radio", "beartrap",
  "UPS_off", "string_36", "longbow", "compbow", "arrow_wood",
  "arrow_cf", "wire", "rollmat", "tent_kit", "canteen", "ax",
- "heatpack", "glowstick", "emer_blanket", "cloak", "sleeping_bag", "gasoline_lantern", NULL);
+ "heatpack", "glowstick", "emerg_blanket", "cloak", "sleeping_bag", "fire_blanket", "gasoline_lantern", NULL);
 
 
  setvector(
@@ -542,7 +542,7 @@ void game::init_mapitems()
 	"manual_mechanics", "manual_first_aid", "manual_traps",
 	"flashlight", "water_purifier", "two_way_radio", "radio",
  "geiger_off", "usb_drive", "canteen", "jerrycan", "rucksack",
- "heatpack", "sleeping_bag", "emer_blanket", "flyer", NULL);
+ "heatpack", "sleeping_bag", "emerg_blanket", "fire_blanket", "flyer", NULL);
 
  setvector(
    &mapitems[mi_shelter],
@@ -555,7 +555,7 @@ void game::init_mapitems()
 	"manual_first_aid", "manual_tailor", "manual_carpentry",
 	"lighter", "matches", "sewing_kit", "thread", "hammer", "extinguisher",
 	"flashlight", "hotplate", "water_purifier", "radio", "rollmat",
- "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "emer_blanket", "flyer", "gasoline_lantern", NULL);
+ "tent_kit", "canteen", "spray_can", "ax", "heatpack", "blanket", "fire_blanket", "flyer", "gasoline_lantern", NULL);
 
  setvector(
    &mapitems[mi_mechanics],
@@ -738,7 +738,7 @@ void game::init_mapitems()
     "armguard_hard", "under_armor", "long_underpants",
 	"helmet_ball", "helmet_riot", "helmet_motor", "holster",
 	"bootstrap", "UPS_off", "beltrig", "rucksack",
-    "emer_blanket", "cloak", NULL);
+    "emerg_blanket", "cloak", NULL);
 
  setvector(
    &mapitems[mi_survival_tools],

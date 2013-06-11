@@ -153,6 +153,7 @@ class iuse
   void heatpack			(game *g, player *p, item *it, bool t);
   void dejar            (game *g, player *p, item *it, bool t);
   void devac            (game *g, player *p, item *it, bool t);
+  void unpack            (game *g, player *p, item *it, bool t);
 
 // MACGUFFINS
   void mcg_note		(game *g, player *p, item *it, bool t);
