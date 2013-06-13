@@ -70,6 +70,7 @@
         "bashing" : -2,
         "flags" : ["VARSIZE"],
         "coverage" : 50,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -95,6 +96,7 @@
         "bashing" : 1,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 4
     },
     {
@@ -120,6 +122,7 @@
         "bashing" : 1,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 6
     },
     {
@@ -145,6 +148,7 @@
         "bashing" : 4,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 4
     },
     {
@@ -170,6 +174,7 @@
         "bashing" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 8
     },
     {
@@ -194,6 +199,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 40,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     },
     {
@@ -217,7 +223,7 @@
         "rarity" : 35,
         "encumberance" : 3,
         "bashing" : -4,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "NOFOLD"],
         "coverage" : 20,
         "material_thickness" : 2
     },
@@ -242,7 +248,7 @@
         "rarity" : 50,
         "encumberance" : 1,
         "bashing" : 1,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "NOFOLD"],
         "coverage" : 50,
         "material_thickness" : 2
     },
@@ -267,7 +273,7 @@
         "rarity" : 50,
         "encumberance" : 4,
         "bashing" : 6,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "NOFOLD"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -293,6 +299,7 @@
         "encumberance" : 1,
         "bashing" : 4,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -666,6 +673,7 @@
         "encumberance" : 2,
         "bashing" : 2,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -739,7 +747,7 @@
         "rarity" : 2,
         "encumberance" : 5,
         "bashing" : 8,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "NOFOLD"],
         "coverage" : 100,
         "material_thickness" : 5
     },
@@ -1064,7 +1072,7 @@
         "rarity" : 30,
         "encumberance" : 2,
         "bashing" : 6,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "NOFOLD"],
         "coverage" : 80,
         "material_thickness" : 5
     },
@@ -1436,6 +1444,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "coverage" : 50,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -1460,6 +1469,7 @@
         "encumberance" : 1,
         "bashing" : -5,
         "coverage" : 50,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -1749,6 +1759,7 @@
         "encumberance" : 1,
         "bashing" : 2,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -1869,6 +1880,7 @@
         "encumberance" : 2,
         "bashing" : 1,
         "coverage" : 85,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -1893,6 +1905,7 @@
         "encumberance" : 4,
         "bashing" : 0,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 4
     },
     {
@@ -1990,6 +2003,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "coverage" : 75,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -2038,6 +2052,7 @@
         "encumberance" : 1,
         "bashing" : -4,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     },
     {
@@ -2062,6 +2077,7 @@
         "encumberance" : 6,
         "bashing" : -1,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     },
     {
@@ -2086,6 +2102,7 @@
         "encumberance" : 2,
         "bashing" : 1,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     },
     {
@@ -2110,6 +2127,7 @@
         "encumberance" : 0,
         "bashing" : -3,
         "coverage" : 40,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     },
     {
@@ -2327,6 +2345,7 @@
         "encumberance" : 1,
         "bashing" : 6,
         "coverage" : 70,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -2351,6 +2370,7 @@
         "encumberance" : 1,
         "bashing" : 10,
         "coverage" : 70,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -2400,6 +2420,7 @@
         "encumberance" : 1,
         "bashing" : 4,
         "coverage" : 75,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 4
     },
     {
@@ -2425,6 +2446,7 @@
         "encumberance" : 2,
         "bashing" : 8,
         "coverage" : 75,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -2450,6 +2472,7 @@
         "encumberance" : 2,
         "bashing" : 7,
         "coverage" : 80,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 3
     },
     {
@@ -2475,6 +2498,7 @@
         "encumberance" : 2,
         "bashing" : 10,
         "coverage" : 85,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 4
     },
     {
@@ -2500,6 +2524,7 @@
         "encumberance" : 2,
         "bashing" : 8,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 4
     },
     {
@@ -2525,6 +2550,7 @@
         "encumberance" : 3,
         "bashing" : 7,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -2549,6 +2575,7 @@
         "encumberance" : 1,
         "bashing" : 2,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -2574,6 +2601,7 @@
         "encumberance" : 4,
         "bashing" : 10,
         "coverage" : 95,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 5
     },
     {
@@ -2598,6 +2626,7 @@
         "encumberance" : 0,
         "bashing" : -5,
         "coverage" : 60,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 1
     },
     {
@@ -2835,6 +2864,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
+        "flags" : ["NOFOLD"],
         "phase" : "solid"
     },
     {
@@ -2858,6 +2888,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
+        "flags" : ["NOFOLD"],
         "phase" : "solid"
     },
     {
@@ -2881,6 +2912,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
+        "flags" : ["NOFOLD"],
         "phase" : "solid"
     },
     {
@@ -2905,7 +2937,8 @@
         "ammo": "none",
         "revert_to": "null",
         "phase" : "solid",
-	"use_action" : "RAD_BADGE"
+        "flags" : ["NOFOLD"],
+        "use_action" : "RAD_BADGE"
     },
     {
         "type" : "ARMOR",
@@ -2928,6 +2961,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
+        "flags" : ["NOFOLD"],
         "phase" : "solid"
     },
     {
@@ -2952,6 +2986,7 @@
         "cutting" : 0,
         "warmth" : 0,
         "enviromental_protection" : 0,
+        "flags" : ["NOFOLD"],
         "phase" : "solid"
     },
     {
@@ -3277,6 +3312,7 @@
         "encumberance" : 5,
         "bashing" : 1,
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 10
     },
     {
@@ -3302,6 +3338,7 @@
         "encumberance" : 5,
         "bashing" : 1,
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 10
     },
     {
@@ -3327,6 +3364,7 @@
         "encumberance" : 4,
         "bashing" : 1,
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 9
     },
     {
@@ -3352,6 +3390,7 @@
         "encumberance" : 4,
         "bashing" : 1,
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 9
     },
     {
@@ -3377,6 +3416,7 @@
         "encumberance" : 5,
         "bashing" : 1,
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 13
     },
     {
@@ -3402,6 +3442,7 @@
         "encumberance" : 5,
         "bashing" : 1,
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 13
     },
     {
@@ -3426,6 +3467,7 @@
         "bashing" : 1,
         "symbol" : "[",
         "coverage" : 100,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 10
     },
     {
@@ -3450,6 +3492,7 @@
         "bashing" : 0,
         "symbol" : "[",
         "coverage" : 75,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     },
     {
@@ -3474,6 +3517,7 @@
         "bashing" : 0,
         "symbol" : "[",
         "coverage" : 75,
+        "flags" : ["NOFOLD"],
         "material_thickness" : 2
     }
 ]
