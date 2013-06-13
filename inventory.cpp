@@ -1306,7 +1306,7 @@ int inventory::volume() const
         {
             if (stack_iter->has_flag("FOLDED"))
             {
-                ret += std::max(int(0.5 + stack_iter->volume() / 3), 1);
+                ret += std::max(int(0.5 + stack_iter->volume() / 3.0), 1);
             }
             else
                 ret += stack_iter->volume();
