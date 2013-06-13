@@ -6247,7 +6247,7 @@ press 'U' while wielding the unloaded gun.", gun->tname(g).c_str());
  } else if (used->is_armor()) {
   if (replace_item)
    inv.add_item(copy);
-  wear(g, let);
+  fold(g, let);
   return;
  } else
   g->add_msg("You can't do anything interesting with your %s.",

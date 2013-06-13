@@ -401,9 +401,9 @@ class game
   void complete_butcher(int index);	// Finish the butchering process
   void forage();	// Foraging ('a' on underbrush)
   void eat(char chInput = '.');	  // Eat food or fuel		'E' (or 'a')
-  void use_item(char chInput = '.');// Use item; also tries E,R,W	'a'
+  void use_item(char chInput = '.');// Use item; also tries E,R,"fold"	'a'
   void use_wielded_item();
-  void fold(char chInput = '.');    // Fold armor      no key yet TODO
+  void fold(char chInput = '.');    // Fold armor      no default key, but used by 'a'
   void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
   void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
