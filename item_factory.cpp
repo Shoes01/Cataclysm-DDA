@@ -548,6 +548,7 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                     HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
                     FOLDED - Reduces volume by a third
+                    NOFOLD - Cannot be folded
                     */
                 }
 
