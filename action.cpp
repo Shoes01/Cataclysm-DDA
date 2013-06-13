@@ -247,6 +247,8 @@ std::string action_ident(action_id act)
             return "disassemble";
         case ACTION_SLEEP:
             return "sleep";
+        case ACTION_FOLD:
+            return "fold";
         case ACTION_CONTROL_VEHICLE:
             return "control_vehicle";
         case ACTION_TOGGLE_SAFEMODE:
@@ -421,6 +423,8 @@ std::string action_name(action_id act)
             return "Disassemble items";
         case ACTION_SLEEP:
             return "Sleep";
+        case ACTION_FOLD:
+            return "Fold";
         case ACTION_CONTROL_VEHICLE:
             return "Control Vehicle";
         case ACTION_TOGGLE_SAFEMODE:

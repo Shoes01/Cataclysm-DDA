@@ -1897,6 +1897,10 @@ bool game::handle_action()
    }
    break;
 
+  case ACTION_FOLD:
+  fold();
+  break;
+
   case ACTION_SAVE:
   if (!u.in_vehicle) {
    if (query_yn("Save and quit?")) {
