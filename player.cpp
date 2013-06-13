@@ -5353,6 +5353,12 @@ bool player::wear_item(game *g, item *to_wear)
   return false;
  }
 
+ // are we trying to put on something that is folded? cuz ya can't
+ if (to_wear->has_flag("FOLDED")) {
+  g->add_msg("You can't wear your %s, it's neatly folded!", to_wear->tname().c_str());
+  return false;
+ }
+
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
  if (armor->is_power_armor()) {
    if (worn.size() && armor->covers & mfb(bp_torso)) {
