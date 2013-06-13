@@ -5172,6 +5172,50 @@ void player::pick_style(game *g) // Style selection menu
   style_selected = "null";
 }
 
+void player::fold(game *g, char let)
+{
+/* TODO
+
+ADD A CHECK TO SEE IF YOU ARE WEARING WHAT YOU WANT TO FOLD
+
+DISABLE PLAYER FROM WEARING FOLDED CLOTHING
+
+MAKE moves LOSE MORE DEPENDING ON THE "SIZE" OF THE ITEM
+
+REDUCE VOLUME FOR REAL, NOT JUST IN DESCRIPTION
+
+*/
+
+    item* to_fold = NULL;
+    to_fold = &inv.item_by_letter(let);
+
+    if (to_fold == NULL)
+    {
+        g->add_msg("You don't have item '%c'.", let);
+        return;
+    }
+    
+    // CAN'T FOLD IF WEARING
+    // CAN'T FOLD IF IT'S NOT ARMOR
+    // CAN'T FOLD IF IT'S VOLUME IS TOO LOW
+    // CAN'T FOLD FOOTWEAR OR HEADWEAR THAT IS HARD (FLAGGED AS "NOFOLD")
+    
+    if (to_fold->has_flag("FOLDED"))
+    {
+        g->add_msg("You unfold your %s.", to_fold->tname().c_str());
+        to_fold->item_tags.erase("FOLDED");
+        moves -= 150;
+    }
+    else
+    {
+        g->add_msg("You fold your %s.", to_fold->tname().c_str());
+        to_fold->item_tags.insert("FOLDED");
+        moves -= 350;
+    }
+
+    return;
+}
+
 hint_rating player::rate_action_wear(item *it)
 {
  //TODO flag already-worn items as HINT_IFFY
