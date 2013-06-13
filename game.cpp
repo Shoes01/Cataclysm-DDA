@@ -8484,6 +8484,22 @@ void game::eat(char chInput)
  u.eat(this, u.lookup_item(ch));
 }
 
+
+void game::fold(char chInput)
+{
+ char ch;
+ if (chInput == '.')
+  ch = inv_type("Fold item:", IC_ARMOR);
+ else
+  ch = chInput;
+
+ if (ch == ' ') {
+  add_msg("Never mind.");
+  return;
+ }
+ u.fold(this, ch);
+}
+
 void game::wear(char chInput)
 {
  char ch;

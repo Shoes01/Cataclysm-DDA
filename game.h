@@ -403,6 +403,7 @@ class game
   void eat(char chInput = '.');	  // Eat food or fuel		'E' (or 'a')
   void use_item(char chInput = '.');// Use item; also tries E,R,W	'a'
   void use_wielded_item();
+  void fold(char chInput = '.');    // Fold armor      no key yet TODO
   void wear(char chInput = '.');	  // Wear armor			'W' (or 'a')
   void takeoff(char chInput = '.'); // Remove armor		'T'
   void reload();  // Reload a wielded gun/tool	'r'
