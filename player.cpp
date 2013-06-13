@@ -5172,7 +5172,7 @@ void player::pick_style(game *g) // Style selection menu
   style_selected = "null";
 }
 
-void player::fold(game *g, char let)
+bool player::fold(game *g, char let)
 {
 /* TODO
 MAKE moves LOSE MORE DEPENDING ON THE "SIZE" OF THE ITEM
@@ -5188,7 +5188,7 @@ FIX VOLUME REDUCTION
     if (to_fold == NULL)
     {
         g->add_msg("You don't have item '%c'.", let);
-        return;
+        return false;
     }
     
     // CAN'T FOLD IF WEARING
@@ -5196,25 +5196,25 @@ FIX VOLUME REDUCTION
     {
         g->add_msg("But you are wearing your %s!", to_fold->tname().c_str());
         // Item is being called a "none" ...
-        return;
+        return false;
     }
     // CAN'T FOLD IF IT'S NOT ARMOR
     if (!to_fold->is_armor())
     {
         g->add_msg("You can't fold your %s!", to_fold->tname().c_str());
-        return;
+        return false;
     }
     // CAN'T FOLD FOOTWEAR OR HEADWEAR THAT IS HARD (FLAGGED AS "NOFOLD")
     if (to_fold->has_flag("NOFOLD"))
     {
         g->add_msg("You can't fold your %s.", to_fold->tname().c_str());
-        return;
+        return false;
     }
     // CAN'T FOLD IF IT'S VOLUME IS TOO LOW
     if (to_fold->volume() == 0 && !to_fold->has_flag("FOLDED"))
     {
         g->add_msg("Folding your %s won't do much.", to_fold->tname().c_str());
-        return;
+        return false;
     }
     if (to_fold->has_flag("FOLDED"))
     {
@@ -5229,7 +5229,7 @@ FIX VOLUME REDUCTION
         moves -= 350;
     }
 
-    return;
+    return true;
 }
 
 hint_rating player::rate_action_wear(item *it)
