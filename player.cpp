@@ -5353,12 +5353,6 @@ bool player::wear_item(game *g, item *to_wear)
   return false;
  }
 
- // are we trying to put on something that is folded? cuz ya can't
- if (to_wear->has_flag("FOLDED")) {
-  g->add_msg("You can't wear your %s, it's neatly folded!", to_wear->tname().c_str());
-  return false;
- }
-
  // are we trying to put on power armor? If so, make sure we don't have any other gear on.
  if (armor->is_power_armor()) {
    if (worn.size() && armor->covers & mfb(bp_torso)) {
@@ -5381,9 +5375,22 @@ bool player::wear_item(game *g, item *to_wear)
      g->add_msg("You can't wear %s with power armor!", to_wear->tname().c_str());
      return false;
    }
-}
+ }
 
-if (!to_wear->has_flag("OVERSIZE")) {
+ // are we trying to put on something that is folded? cuz ya can't
+ if (to_wear->has_flag("FOLDED"))
+ {
+  if (query_yn("You can't wear your %s, it's neatly folded! Unfold and wear?", to_wear->tname(g).c_str()))
+  {
+   g->add_msg("You unfold your %s.", to_wear->tname().c_str());
+   to_wear->item_tags.erase("FOLDED");
+   moves -= 150;
+  }
+  else
+   return false;
+ }
+
+ if (!to_wear->has_flag("OVERSIZE")) {
  // Make sure we're not wearing 2 of the item already
   int count = 0;
   for (int i = 0; i < worn.size(); i++) {
