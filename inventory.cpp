@@ -4,6 +4,7 @@
 #include "keypress.h"
 #include "mapdata.h"
 #include "item_factory.h"
+#include <stdlib.h>
 
 const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
 
@@ -1303,7 +1304,12 @@ int inventory::volume() const
              stack_iter != iter->end();
              ++stack_iter)
         {
-            ret += stack_iter->volume();
+            if (stack_iter->has_flag("FOLDED"))
+            {
+                ret += std::max(int(0.5 + stack_iter->volume() / 3), 1);
+            }
+            else
+                ret += stack_iter->volume();
         }
     }
     return ret;

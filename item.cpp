@@ -9,6 +9,7 @@
 #include "text_snippets.h"
 #include "material.h"
 #include "item_factory.h"
+#include <stdlib.h>
 
 // mfb(n) converts a flag to its appropriate position in covers's bitfield
 #ifndef mfb
@@ -385,7 +386,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
 
  if( !is_null() )
  {
-  dump->push_back(iteminfo("BASE", " Volume: ", "", int(volume()), "", false, true));
+    // Reduce volume if the clothing item has tag "FOLDED"
+    if (has_flag("FOLDED"))
+    {
+        dump->push_back(iteminfo("BASE", " Volume: ", "", std::max(int(0.5 + volume() / 3), 1), " (folded)", false, true));
+    }
+    else
+    {
+        dump->push_back(iteminfo("BASE", " Volume: ", "", int(volume()), "", false, true));
+    }
   dump->push_back(iteminfo("BASE", "    Weight: ", "", int(weight()), "", true, true));
   dump->push_back(iteminfo("BASE", " Bash: ", "", int(type->melee_dam), "", false));
   dump->push_back(iteminfo("BASE", (has_flag("SPEAR") ? "  Pierce: " : "  Cut: "), "", int(type->melee_cut), "", false));
