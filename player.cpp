@@ -5175,11 +5175,7 @@ void player::pick_style(game *g) // Style selection menu
 bool player::fold(game *g, char let)
 {
 /* TODO
-MAKE moves LOSE MORE DEPENDING ON THE "SIZE" OF THE ITEM
-
-FIX VOLUME REDUCTION
-    - It is being reduced by 1/3rd, but disregarding the +0.5
-
+    - Calculated a "density" number that makes folding some clothes take more moves
 */
 
     item* to_fold = NULL;
@@ -5190,34 +5186,34 @@ FIX VOLUME REDUCTION
         g->add_msg("You don't have item '%c'.", let);
         return false;
     }
-    
-    // CAN'T FOLD IF WEARING
+    // Can't fold what you're wearing
     if (is_wearing(to_fold->type->id))
     {
         g->add_msg("But you are wearing your %s!", to_fold->tname().c_str());
         // Item is being called a "none" ...
         return false;
     }
-    // CAN'T FOLD IF IT'S NOT ARMOR
+    // Can't fold if it isn't armor
     if (!to_fold->is_armor())
     {
         g->add_msg("You can't fold your %s!", to_fold->tname().c_str());
         return false;
     }
-    // CAN'T FOLD FOOTWEAR OR HEADWEAR THAT IS HARD (FLAGGED AS "NOFOLD")
+    // Can't fold if flagged as NOFOLD
     if (to_fold->has_flag("NOFOLD"))
     {
         g->add_msg("You can't fold your %s.", to_fold->tname().c_str());
         return false;
     }
-    // CAN'T FOLD IF IT'S VOLUME IS TOO LOW
-    if (to_fold->volume() == 0 && !to_fold->has_flag("FOLDED"))
+    // Can't fold is volume is too low
+    if (to_fold->volume() < 2 && !to_fold->has_flag("FOLDED"))
     {
         g->add_msg("Folding your %s won't do much.", to_fold->tname().c_str());
         return false;
     }
     if (to_fold->has_flag("FOLDED"))
     {
+        // This same code is reused in "player::wear_item()"
         g->add_msg("You unfold your %s.", to_fold->tname().c_str());
         to_fold->item_tags.erase("FOLDED");
         moves -= 150;
