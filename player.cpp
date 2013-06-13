@@ -16,6 +16,7 @@
 #include "weather.h"
 #include "item.h"
 #include "material.h"
+#include <cmath>
 
 #include "name.h"
 #include "cursesdef.h"
@@ -5174,12 +5175,9 @@ void player::pick_style(game *g) // Style selection menu
 
 bool player::fold(game *g, char let)
 {
-/* TODO
-    - Calculated a "density" number that makes folding some clothes take more moves
-*/
-
     item* to_fold = NULL;
     to_fold = &inv.item_by_letter(let);
+    int item_density = int(sqrt(to_fold->volume()*to_fold->weight()));
 
     if (to_fold == NULL)
     {
@@ -5216,13 +5214,13 @@ bool player::fold(game *g, char let)
         // This same code is reused in "player::wear_item()"
         g->add_msg("You unfold your %s.", to_fold->tname().c_str());
         to_fold->item_tags.erase("FOLDED");
-        moves -= 150;
+        moves -= 30;
     }
     else
     {
         g->add_msg("You fold your %s.", to_fold->tname().c_str());
         to_fold->item_tags.insert("FOLDED");
-        moves -= 350;
+        moves -= 50*item_density;
     }
 
     return true;
@@ -5380,7 +5378,7 @@ bool player::wear_item(game *g, item *to_wear)
   {
    g->add_msg("You unfold your %s.", to_wear->tname().c_str());
    to_wear->item_tags.erase("FOLDED");
-   moves -= 150;
+   moves -= 30;
   }
   else
    return false;
