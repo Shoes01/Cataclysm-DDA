@@ -5185,8 +5185,22 @@ hint_rating player::rate_action_fold(item *it)
 
 bool player::fold(game *g, char let)
 {
+/*
+BUGS
+1- Can't fold shirt A if you're wearing shirt B
+2- Can't fold something you're weilding
+*/
     item* to_fold = NULL;
-    to_fold = &inv.item_by_letter(let);
+
+    if (weapon.invlet == let)
+    {
+        to_fold = &weapon;
+    }
+    else
+    {
+        to_fold = &inv.item_by_letter(let);
+    }
+
     int item_density = int(sqrt(to_fold->volume()*to_fold->weight()));
 
     if (to_fold == NULL)
@@ -5194,23 +5208,17 @@ bool player::fold(game *g, char let)
         g->add_msg("You don't have item '%c'.", let);
         return false;
     }
-    // Can't fold what you're wearing
-    if (is_wearing(to_fold->type->id))
-    {
-        g->add_msg("But you are wearing your %s!", to_fold->tname().c_str());
-        // Item is being called a "none" ...
-        return false;
-    }
-    // Can't fold if it isn't armor
+    // Can't fold if you are wearing it
+    // Why does this work
     if (!to_fold->is_armor())
     {
-        g->add_msg("You can't roll up your %s!", to_fold->tname().c_str());
+        g->add_msg("But you're wearing it!");
         return false;
     }
     // Can't fold if flagged as NOFOLD
     if (to_fold->has_flag("NOFOLD"))
     {
-        g->add_msg("You can't roll up your %s.", to_fold->tname().c_str());
+        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
         return false;
     }
     // Can't fold if volume is too low
