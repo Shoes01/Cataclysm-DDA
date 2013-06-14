@@ -6032,6 +6032,16 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
     return HINT_CANT;
 }
 
+hint_rating player::rate_action_fold(item *it)
+{
+    if (it->is_armor())
+    {
+        return HINT_IFFY;
+    }
+    
+    return HINT_CANT;
+}
+
 hint_rating player::rate_action_use(item *it)
 {
  if (it->is_tool()) {

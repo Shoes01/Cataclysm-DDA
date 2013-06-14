@@ -223,6 +223,7 @@ public:
  hint_rating rate_action_reload(item *it);
  hint_rating rate_action_unload(item *it);
  hint_rating rate_action_disassemble(item *it, game *g);
+ hint_rating rate_action_fold(item *it);
 
  int warmth(body_part bp);	// Warmth provided by armor &c
  int encumb(body_part bp);	// Encumberance from armor &c

@@ -1339,7 +1339,7 @@ int game::inventory_item_menu(char chItem, int startx, int width) {
             vMenu.push_back(iteminfo("MENU", "r", "eload", u.rate_action_reload(&oThisItem)));
             vMenu.push_back(iteminfo("MENU", "D", "isassemble", u.rate_action_disassemble(&oThisItem, this)));
             vMenu.push_back(iteminfo("MENU", "=", " reassign"));
-            vMenu.push_back(iteminfo("MENU", "f", " fold"));
+            vMenu.push_back(iteminfo("MENU", "f", " fold", u.rate_action_fold(&oThisItem)));
             oThisItem.info(true, &vThisItem);
             compare_split_screen_popup(startx, width, TERMY-VIEW_OFFSET_Y*2, oThisItem.tname(this), vThisItem, vDummy);
             cMenu = compare_split_screen_popup(startx+width, 14, 17, "", vMenu, vDummy, 
