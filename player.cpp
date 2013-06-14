@@ -5173,6 +5173,16 @@ void player::pick_style(game *g) // Style selection menu
   style_selected = "null";
 }
 
+hint_rating player::rate_action_fold(item *it)
+{
+    if (it->is_armor())
+    {
+        return HINT_IFFY;
+    }
+
+    return HINT_CANT;
+}
+
 bool player::fold(game *g, char let)
 {
     item* to_fold = NULL;
@@ -5194,31 +5204,31 @@ bool player::fold(game *g, char let)
     // Can't fold if it isn't armor
     if (!to_fold->is_armor())
     {
-        g->add_msg("You can't fold your %s!", to_fold->tname().c_str());
+        g->add_msg("You can't roll up your %s!", to_fold->tname().c_str());
         return false;
     }
     // Can't fold if flagged as NOFOLD
     if (to_fold->has_flag("NOFOLD"))
     {
-        g->add_msg("You can't fold your %s.", to_fold->tname().c_str());
+        g->add_msg("You can't roll up your %s.", to_fold->tname().c_str());
         return false;
     }
-    // Can't fold is volume is too low
+    // Can't fold if volume is too low
     if (to_fold->volume() < 2 && !to_fold->has_flag("FOLDED"))
     {
-        g->add_msg("Folding your %s won't do much.", to_fold->tname().c_str());
+        g->add_msg("Rolling up your %s won't do much.", to_fold->tname().c_str());
         return false;
     }
     if (to_fold->has_flag("FOLDED"))
     {
         // This same code is reused in "player::wear_item()"
-        g->add_msg("You unfold your %s.", to_fold->tname().c_str());
+        g->add_msg("You unroll your %s.", to_fold->tname().c_str());
         to_fold->item_tags.erase("FOLDED");
         moves -= 30;
     }
     else
     {
-        g->add_msg("You fold your %s.", to_fold->tname().c_str());
+        g->add_msg("You tightly roll up your %s.", to_fold->tname().c_str());
         to_fold->item_tags.insert("FOLDED");
         moves -= 50*item_density;
     }
@@ -6029,16 +6039,6 @@ hint_rating player::rate_action_disassemble(item *it, game *g) {
         }
     }
     // no recipe exists, or the item cannot be disassembled
-    return HINT_CANT;
-}
-
-hint_rating player::rate_action_fold(item *it)
-{
-    if (it->is_armor())
-    {
-        return HINT_IFFY;
-    }
-    
     return HINT_CANT;
 }
 
