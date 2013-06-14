@@ -5175,9 +5175,9 @@ void player::pick_style(game *g) // Style selection menu
 
 hint_rating player::rate_action_fold(item *it)
 {
-    if (it->is_armor())
+    if (it->is_armor() && !it->has_flag("NOFOLD"))
     {
-        return HINT_IFFY;
+        return HINT_GOOD;
     }
 
     return HINT_CANT;
