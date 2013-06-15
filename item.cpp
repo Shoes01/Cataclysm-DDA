@@ -389,7 +389,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> *dump)
     // Reduce volume if the clothing item has tag "FOLDED"
     if (has_flag("FOLDED"))
     {
-        dump->push_back(iteminfo("BASE", " Volume: ", "", std::max(int(0.5 + volume() / 2.0), 1), " (folded)", false, true));
+        dump->push_back(iteminfo("BASE", " Volume: ", "", std::max(int(0.5 + volume() / 1.5), 5), " (folded)", false, true));
     }
     else
     {

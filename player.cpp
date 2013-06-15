@@ -5230,7 +5230,8 @@ BUGS
 
 bool player::can_fold(game *g, item *to_fold)
 {
-/*  Check if item is armor (this means the player can't fold clothing that he is wearing NOR fold non-armor items)
+/*  Start with exceptions (currently none)
+    Check if item is armor (this means the player can't fold clothing that he is wearing NOR fold non-armor items)
     Check materials (if it is not made of cotton OR wool OR leather OR fur, then no good)
     Check a blacklist of items that pass the material check 
         Then check footwear
@@ -5258,7 +5259,7 @@ bool player::can_fold(game *g, item *to_fold)
         g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
         return false;
     }
-    if (to_fold->volume() < 2 && !to_fold->has_flag("FOLDED"))
+    if (to_fold->volume() < 6 && !to_fold->has_flag("FOLDED"))
     {
         g->add_msg("Rolling up your %s won't do much.", to_fold->tname().c_str());
         return false;
