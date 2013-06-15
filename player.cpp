@@ -5208,17 +5208,19 @@ BUGS
         g->add_msg("You don't have item '%c'.", let);
         return false;
     }
-    // Can't fold if you are wearing it
-    // Why does this work
-    if (!to_fold->is_armor())
-    {
-        g->add_msg("But you're wearing it!");
-        return false;
-    }
     // Can't fold if flagged as NOFOLD
     if (to_fold->has_flag("NOFOLD"))
     {
         g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
+        return false;
+    }
+    // Can't fold if you are wearing it
+    // Can't fold if it is not armor
+    // Why does this work for both cases
+    // Also I can't get the name to not be "none"
+    if (!to_fold->is_armor())
+    {
+        g->add_msg("You can't roll this up.");
         return false;
     }
     // Can't fold if volume is too low
