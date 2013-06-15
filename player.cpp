@@ -5192,6 +5192,7 @@ BUGS
 */
     item* to_fold = NULL;
 
+    // Check to see if we are wielding what we want to fold
     if (weapon.invlet == let)
     {
         to_fold = &weapon;
@@ -5200,33 +5201,13 @@ BUGS
     {
         to_fold = &inv.item_by_letter(let);
     }
-
-    int item_density = int(sqrt(to_fold->volume()*to_fold->weight()));
-
     if (to_fold == NULL)
     {
         g->add_msg("You don't have item '%c'.", let);
         return false;
     }
-    // Can't fold if flagged as NOFOLD
-    if (to_fold->has_flag("NOFOLD"))
+    if(!can_fold(g, to_fold))
     {
-        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
-        return false;
-    }
-    // Can't fold if you are wearing it
-    // Can't fold if it is not armor
-    // Why does this work for both cases
-    // Also I can't get the name to not be "none"
-    if (!to_fold->is_armor())
-    {
-        g->add_msg("You can't roll this up.");
-        return false;
-    }
-    // Can't fold if volume is too low
-    if (to_fold->volume() < 2 && !to_fold->has_flag("FOLDED"))
-    {
-        g->add_msg("Rolling up your %s won't do much.", to_fold->tname().c_str());
         return false;
     }
     if (to_fold->has_flag("FOLDED"))
@@ -5240,9 +5221,49 @@ BUGS
     {
         g->add_msg("You tightly roll up your %s.", to_fold->tname().c_str());
         to_fold->item_tags.insert("FOLDED");
+        int item_density = int(sqrt(to_fold->volume()*to_fold->weight()));
         moves -= 50*item_density;
     }
 
+    return true;
+}
+
+bool player::can_fold(game *g, item *to_fold)
+{
+/*  Check if item is armor (this means the player can't fold clothing that he is wearing NOR fold non-armor items)
+    Check materials (if it is not made of cotton OR wool OR leather OR fur, then no good)
+    Check a blacklist of items that pass the material check 
+        Then check footwear
+        Then check a few special case items
+    Check to see if it is too small to be folded */
+    it_armor* armor_fold = dynamic_cast<it_armor*>(to_fold->type);
+
+    if (!to_fold->is_armor())
+    {
+        g->add_msg("You can't roll this up.");
+        return false;
+    }
+    if (!(to_fold->made_of("cotton") || to_fold->made_of("wool") || to_fold->made_of("leather") || to_fold->made_of("fur")))
+    {
+        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
+        return false;
+    }
+    else if (armor_fold->covers & mfb (bp_feet) && !(to_fold->type->id == "socks_wool" || to_fold->type->id == "socks"))
+    {
+        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
+        return false;
+    }
+    else if (to_fold->type->id == "armguard_hard" || to_fold->type->id == "arm_splint" || to_fold->type->id == "leg_splint")
+    {
+        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
+        return false;
+    }
+    if (to_fold->volume() < 2 && !to_fold->has_flag("FOLDED"))
+    {
+        g->add_msg("Rolling up your %s won't do much.", to_fold->tname().c_str());
+        return false;
+    }
+    
     return true;
 }
 
