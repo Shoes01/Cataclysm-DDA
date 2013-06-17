@@ -5175,7 +5175,9 @@ void player::pick_style(game *g) // Style selection menu
 
 hint_rating player::rate_action_fold(item *it)
 {
-    if (it->is_armor() && !it->has_flag("NOFOLD"))
+    std::string fold_error = "error";
+    can_fold(it, fold_error);
+    if (fold_error == "no error")
     {
         return HINT_GOOD;
     }
@@ -5185,12 +5187,8 @@ hint_rating player::rate_action_fold(item *it)
 
 bool player::fold(game *g, char let)
 {
-/*
-BUGS
-1- Can't fold shirt A if you're wearing shirt B
-2- Can't fold something you're weilding
-*/
     item* to_fold = NULL;
+    std::string fold_error = "error";
 
     // Check to see if we are wielding what we want to fold
     if (weapon.invlet == let)
@@ -5206,8 +5204,11 @@ BUGS
         g->add_msg("You don't have item '%c'.", let);
         return false;
     }
-    if(!can_fold(g, to_fold))
+    can_fold(to_fold, fold_error);
+    if (fold_error != "no error")
     {
+        // BUG all names are "(null)"
+        g->add_msg("%s", fold_error.c_str());
         return false;
     }
     if (to_fold->has_flag("FOLDED"))
@@ -5228,7 +5229,7 @@ BUGS
     return true;
 }
 
-bool player::can_fold(game *g, item *to_fold)
+void player::can_fold(item *to_fold, std::string &fold_error)
 {
 /*  Start with exceptions (currently none)
     Check if item is armor (this means the player can't fold clothing that he is wearing NOR fold non-armor items)
@@ -5238,34 +5239,34 @@ bool player::can_fold(game *g, item *to_fold)
         Then check a few special case items
     Check to see if it is too small to be folded */
     it_armor* armor_fold = dynamic_cast<it_armor*>(to_fold->type);
+    fold_error = "no error";
 
     if (!to_fold->is_armor())
     {
-        g->add_msg("You can't roll this up.");
-        return false;
+        fold_error = "You can't roll this up.";
+        return;
     }
     if (!(to_fold->made_of("cotton") || to_fold->made_of("wool") || to_fold->made_of("leather") || to_fold->made_of("fur")))
     {
-        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
-        return false;
+        fold_error = "Your %s cannot be rolled up.", to_fold->tname().c_str();
+        return;
     }
     else if (armor_fold->covers & mfb (bp_feet) && !(to_fold->type->id == "socks_wool" || to_fold->type->id == "socks"))
     {
-        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
-        return false;
+        fold_error = "Your %s cannot be rolled up.", to_fold->tname().c_str();
+        return;
     }
     else if (to_fold->type->id == "armguard_hard" || to_fold->type->id == "arm_splint" || to_fold->type->id == "leg_splint")
     {
-        g->add_msg("Your %s cannot be rolled up.", to_fold->tname().c_str());
-        return false;
+        fold_error = "Your %s cannot be rolled up.", to_fold->tname().c_str();
+        return;
     }
     if (to_fold->volume() < 6 && !to_fold->has_flag("FOLDED"))
     {
-        g->add_msg("Rolling up your %s won't do much.", to_fold->tname().c_str());
-        return false;
+        fold_error = "Rolling up your %s won't do much.", to_fold->tname().c_str();
+        return;
     }
-    
-    return true;
+    return;
 }
 
 hint_rating player::rate_action_wear(item *it)
@@ -5413,18 +5414,14 @@ bool player::wear_item(game *g, item *to_wear)
    }
  }
 
- // are we trying to put on something that is folded? cuz ya can't
+ // Unfold clothing if it is folded
  if (to_wear->has_flag("FOLDED"))
  {
-  if (query_yn("You can't wear your %s, it's neatly folded! Unfold and wear?", to_wear->tname(g).c_str()))
-  {
-   g->add_msg("You unfold your %s.", to_wear->tname().c_str());
-   to_wear->item_tags.erase("FOLDED");
-   moves -= 30;
-  }
-  else
-   return false;
+  g->add_msg("You unfold your %s.", to_wear->tname().c_str());
+  to_wear->item_tags.erase("FOLDED");
+  moves -= 30;
  }
+
 
  if (!to_wear->has_flag("OVERSIZE")) {
  // Make sure we're not wearing 2 of the item already
