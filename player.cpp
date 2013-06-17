@@ -5248,22 +5248,22 @@ void player::can_fold(item *to_fold, std::string &fold_error)
     }
     if (!(to_fold->made_of("cotton") || to_fold->made_of("wool") || to_fold->made_of("leather") || to_fold->made_of("fur")))
     {
-        fold_error = "Your %s cannot be rolled up.", to_fold->tname().c_str();
+        fold_error = "This cannot be rolled up.";
         return;
     }
     else if (armor_fold->covers & mfb (bp_feet) && !(to_fold->type->id == "socks_wool" || to_fold->type->id == "socks"))
     {
-        fold_error = "Your %s cannot be rolled up.", to_fold->tname().c_str();
+        fold_error = "This cannot be rolled up.";
         return;
     }
     else if (to_fold->type->id == "armguard_hard" || to_fold->type->id == "arm_splint" || to_fold->type->id == "leg_splint")
     {
-        fold_error = "Your %s cannot be rolled up.", to_fold->tname().c_str();
+        fold_error = "This cannot be rolled up.";
         return;
     }
     if (to_fold->volume() < 6 && !to_fold->has_flag("FOLDED"))
     {
-        fold_error = "Rolling up your %s won't do much.", to_fold->tname().c_str();
+        fold_error = "Rolling this up won't do much.";
         return;
     }
     return;
