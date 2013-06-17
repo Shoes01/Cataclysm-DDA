@@ -772,6 +772,10 @@ std::string item::tname(game *g)
   ret << damtext << " ";
  }
 
+ if (has_flag("FOLDED")) {
+  ret << "folded ";
+ }
+
  if (is_var_veh_part()){
   if(type->bigness_aspect == BIGNESS_ENGINE_DISPLACEMENT){ //liters, e.g. "3.21-Liter V8 engine"
    ret.precision(4);
