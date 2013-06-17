@@ -5261,7 +5261,7 @@ void player::can_fold(item *to_fold, std::string &fold_error)
         fold_error = "This cannot be rolled up.";
         return;
     }
-    if (to_fold->volume() < 6 && !to_fold->has_flag("FOLDED"))
+    if (to_fold->volume() <= 3 && !to_fold->has_flag("FOLDED"))
     {
         fold_error = "Rolling this up won't do much.";
         return;

@@ -541,13 +541,13 @@ void Item_factory::load_item_templates_from(const std::string file_name){
                 {
                     new_item_template->item_tags = entry.get("flags").as_tags();
                     /*
-                    List of current flags
+                    List of current flags (probably)
                     FIT - Reduces encumberance by one
                     VARSIZE - Can be made to fit via tailoring
                     OVERSIZE - Can always be worn no matter encumberance/mutations/bionics/etc
                     HOOD - Will increase warmth for head if head is cold and player is not wearing a helmet (headwear of material that is not wool or cotton)
                     POCKETS - Will increase warmth for hands if hands are cold and the player is wielding nothing
-                    FOLDED - Divides volume by 1.5
+                    FOLDED - Divides volume by 1.5, or reduces by 1, depending on size
                     */
                 }
 
