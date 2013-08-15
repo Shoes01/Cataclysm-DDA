@@ -327,11 +327,12 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 
     if( invlet_cache.count( item_type ) ) {
         std::vector<char>& preferred_invlets = invlet_cache[ item_type ];
-
+        
         // Some of our preferred letters might already be used.
         int first_free_invlet = -1;
+        // Check if anything is using this invlet.
+        bool invlet_is_used = false;
         for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
-            bool invlet_is_used = false; // Check if anything is using this invlet.
             if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
                 continue;
             }
@@ -368,7 +369,9 @@ item& inventory::add_item(item newit, bool keep_invlet)
 
     // Check how many stacks of this type already are in our inventory.
 
-    if(!keep_invlet) {
+    bool hotkey_found = assign_hotkey_invlet(newit);
+    if( !keep_invlet && !hotkey_found ) {
+        
         // Do we have this item in our inventory favourites cache?
         char temp_invlet = get_invlet_for_item( newit.typeId() );
         if( temp_invlet != 0 ) {
@@ -1479,6 +1482,26 @@ void inventory::assign_empty_invlet(item &it)
   }
   it.invlet = '`';
   //debugmsg("Couldn't find empty invlet");
+}
+
+bool inventory::assign_hotkey_invlet(item &it)
+{
+    bool hotkey_found = false;
+    std::string item_type = it.typeId();
+    player *p = &(g->u);
+ 
+    if (item_type == "rock") {
+        // Check to see if our weapon has the letter we want
+        if( g->u.weapon.invlet == 'r' ) {
+        }
+        // Check to see if an item in our inventory has the letter we want, if not then assign it
+        else if (!p->has_item('r') && (!p || !p->has_weapon_or_armor('r'))) {
+            it.invlet = 'r';
+            hotkey_found = true;
+        }
+    }
+
+    return hotkey_found;
 }
 
 void inventory::load_invlet_cache( std::ifstream &fin ) {
