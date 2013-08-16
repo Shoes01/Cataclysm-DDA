@@ -4,6 +4,7 @@
 #include "keypress.h"
 #include "mapdata.h"
 #include "item_factory.h"
+#include "catajson.h"
 
 const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
 
@@ -1487,19 +1488,36 @@ void inventory::assign_empty_invlet(item &it)
 bool inventory::assign_hotkey_invlet(item &it)
 {
     bool hotkey_found = false;
-    std::string item_type = it.typeId();
+    std::string item_name = it.type->name;
     player *p = &(g->u);
- 
-    if (item_type == "rock") {
-        // Check to see if our weapon has the letter we want
-        if( g->u.weapon.invlet == 'r' ) {
+
+    catajson hotkeysRaw("data/raw/hotkeys.json");
+    catajson hotkeysList = hotkeysRaw.get("list");
+
+    if(!json_good())
+    	throw (std::string)"data/raw/hotkeys.json could not be read";
+    
+    // Loop through the list of hotkeys
+    for ( hotkeysList.set_begin() ; hotkeysList.has_curr() ; hotkeysList.next() )
+    {
+        catajson curr = hotkeysList.curr();
+        std::string name = curr.get("name").as_string();
+        char hotkey = curr.get("hotkey").as_char();
+        // Check to see if the hotkey is assigned to the weapon
+        if( g->u.weapon.invlet == hotkey ) {
+            break;
         }
-        // Check to see if an item in our inventory has the letter we want, if not then assign it
-        else if (!p->has_item('r') && (!p || !p->has_weapon_or_armor('r'))) {
-            it.invlet = 'r';
-            hotkey_found = true;
+        // Check to see if the hotkey is assigned in our inventory
+        else if (!p->has_item(hotkey) && (!p || !p->has_weapon_or_armor(hotkey))) {
+            // Assign hotkey to item
+            if ( item_name == name ) {
+                it.invlet = hotkey;
+                hotkey_found = true;
+                break;
+            }
         }
     }
+    
 
     return hotkey_found;
 }
