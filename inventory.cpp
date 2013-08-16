@@ -328,11 +328,9 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 
     if( invlet_cache.count( item_type ) ) {
         std::vector<char>& preferred_invlets = invlet_cache[ item_type ];
-        
+
         // Some of our preferred letters might already be used.
         int first_free_invlet = -1;
-        // Check if anything is using this invlet.
-        bool invlet_is_used = false;
         for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
             if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
                 continue;
