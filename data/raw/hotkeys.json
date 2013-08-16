@@ -1,0 +1,20 @@
+{
+    "list" : 
+    [
+        {   "name" : "sewing kit",
+            "hotkey" : "k"
+        },
+
+        {   "name" : "crowbar",
+            "hotkey" : "C"
+        },
+        
+        {   "name" : "flashlight",
+            "hotkey" : "f"
+        },
+        
+        {   "name" : "aspirin",
+            "hotkey" : "a"
+        }
+    ]
+}
