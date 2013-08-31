@@ -331,6 +331,7 @@ char inventory::get_invlet_for_item( std::string item_type ) {
 
         // Some of our preferred letters might already be used.
         int first_free_invlet = -1;
+        bool invlet_is_used = false; // Check if anything is using this invlet.
         for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
             if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
                 continue;
