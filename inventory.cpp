@@ -4,6 +4,7 @@
 #include "keypress.h"
 #include "mapdata.h"
 #include "item_factory.h"
+#include "catajson.h"
 
 const std::string inv_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=?@[\\]^_{|}";
 
@@ -331,7 +332,6 @@ char inventory::get_invlet_for_item( std::string item_type ) {
         // Some of our preferred letters might already be used.
         int first_free_invlet = -1;
         for(int invlets_index = 0; invlets_index < preferred_invlets.size(); invlets_index++) {
-            bool invlet_is_used = false; // Check if anything is using this invlet.
             if( g->u.weapon.invlet == preferred_invlets[ invlets_index ] ) {
                 continue;
             }
@@ -368,7 +368,9 @@ item& inventory::add_item(item newit, bool keep_invlet)
 
     // Check how many stacks of this type already are in our inventory.
 
-    if(!keep_invlet) {
+    bool hotkey_found = assign_hotkey_invlet(newit);
+    if( !keep_invlet && !hotkey_found ) {
+        
         // Do we have this item in our inventory favourites cache?
         char temp_invlet = get_invlet_for_item( newit.typeId() );
         if( temp_invlet != 0 ) {
@@ -1489,6 +1491,70 @@ void inventory::assign_empty_invlet(item &it)
   }
   it.invlet = '`';
   //debugmsg("Couldn't find empty invlet");
+}
+
+bool inventory::assign_hotkey_invlet(item &it)
+{
+    bool hotkey_found = false;
+    bool hotkey_used_by_wrong_item = false;
+    bool hotkey_already_in_use = false;
+    std::string item_name = it.type->name;
+    player *p = &(g->u);
+
+    catajson hotkeysRaw("data/raw/hotkeys.json");
+    catajson hotkeysList = hotkeysRaw.get("list");
+
+    if(!json_good())
+    	throw (std::string)"data/raw/hotkeys.json could not be read";
+
+    // Loop through the list of hotkeys
+    for ( hotkeysList.set_begin() ; hotkeysList.has_curr() ; hotkeysList.next() )
+    {
+        catajson curr = hotkeysList.curr();
+        std::string name = curr.get("name").as_string();
+        char hotkey = curr.get("hotkey").as_char();
+
+        if ( item_name == name ) {
+            // Check to see if the hotkey is assigned to the weapon
+            if( g->u.weapon.invlet == hotkey ) {
+                if ( g->u.weapon.typeId() == it.typeId() ) {
+                    // This means we picked up a second item that we've hotkeyed
+                    hotkey_already_in_use = true;
+                }
+                else {
+                    // This means an item just so happens to be using our hotkey, but shouldn't
+                    hotkey_used_by_wrong_item = true;
+                }
+
+                if ( hotkey_used_by_wrong_item ) {
+                    assign_empty_invlet( g->u.weapon );
+                }
+            }
+            // Check to see if the hotkey is assigned in our inventory OR is being worn (this function checks both)
+            else if ( p->has_item(hotkey) ) {
+                if ( p->i_at(hotkey).typeId() == it.typeId() ) {
+                    // This means we picked up a second item that we've hotkeyed
+                    hotkey_already_in_use = true;
+                }
+                else {
+                    // This means an item just so happens to be using our hotkey, but shouldn't
+                    hotkey_used_by_wrong_item = true;
+                }
+
+                if ( hotkey_used_by_wrong_item ) {
+                    assign_empty_invlet( p->i_at(hotkey) );
+                }
+            }
+            // Assign hotkey to item
+            if ( !hotkey_already_in_use ) {
+                it.invlet = hotkey;
+                hotkey_found = true;
+                break;
+            }
+        }
+    }
+
+    return hotkey_found;
 }
 
 void inventory::load_invlet_cache( std::ifstream &fin ) {

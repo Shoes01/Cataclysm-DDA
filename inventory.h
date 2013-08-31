@@ -132,6 +132,7 @@ class inventory
 
   item remove_item(invstack::iterator iter);
   void assign_empty_invlet(item &it);
+  bool assign_hotkey_invlet(item &it);
   invstack items;
   bool sorted;
 };
