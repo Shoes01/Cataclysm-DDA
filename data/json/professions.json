@@ -784,9 +784,9 @@
         "description": "You have done many high profile heists, but your gains mean nothing in this world. All you have left is your bionic lockpick that you keep powered via batteries.",
         "items":[
             "sunglasses",
-            "jeans",
             "dress_shirt",
-            "dress_shoes",
+            "jeans",
+            "sneakers"
         ],
         "CBMs":[
             "bio_batteries",
@@ -819,10 +819,8 @@
         "name": "Bionic Spy",
         "description": "Your body has bionics worth millions payed by public taxes. The government employed you as a spy: you have night vision, an alarm and a hacking module powered by your own metabolism.",
         "items":[
-            "boots",
-            "pants_army",
-            "jacket_army",
-            "mask_bal"
+            "suit",
+            "dress_shoes"
         ]
         "CBMs":[
             "bio_fingerhack",
