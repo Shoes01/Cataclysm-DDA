@@ -833,13 +833,13 @@ bool game::do_turn()
     if ( u.worn_with_flag("DEAF") )
     {
         // Make the player deaf for one extra turn, so that he is not spammed with warnings
-        if (u.disease_duration("deaf") == 1)
-        {
-            u.add_disease("deaf", 1);
-        }
-        else
+        if (!u.has_disease("deaf"))
         {
             u.add_disease("deaf", 2);
+        }
+        else if (u.disease_duration("deaf") == 1)
+        {
+            u.add_disease("deaf", 1);
         }
     }
     return false;
