@@ -357,7 +357,7 @@ void player::die(Creature* nkiller) {
 }
 
 void player::reset_stats()
-{   
+{
 
     // Didn't just pick something up
     last_item = itype_id("null");
@@ -832,7 +832,13 @@ void player::update_bodytemp()
         float homeostasis_adjustement = (temp_cur[i] > BODYTEMP_NORM ? 30.0 : 60.0);
         int clothing_warmth_adjustement = homeostasis_adjustement * warmth(body_part(i));
         // Convergeant temperature is affected by ambient temperature, clothing warmth, and body wetness.
-        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement;
+        temp_conv[i] = BODYTEMP_NORM + adjusted_temp + clothing_warmth_adjustement + wind_penalty(body_part(i));
+        // DEBUG
+        if ( i == 0)
+        {
+            //int wind_power = g->get_wind_power(posx, posy)
+            g->add_msg("Wind power: %d, penalty: %d", g->get_wind_power(posx, posy), wind_penalty(body_part(i)));
+        }
         // HUNGER
         temp_conv[i] -= hunger/6 + 100;
         // FATIGUE
@@ -7260,7 +7266,7 @@ bool player::eat(item *eaten, it_comest *comest)
         g->add_msg_player_or_npc( this, _("You eat your %s."), _("<npcname> eats a %s."),
                                   eaten->tname().c_str());
     }
-    
+
     // Moved this later in the process, so you actually eat it before converting to HP
     if ( (has_trait("EATHEALTH")) && ( comest->nutr > 0 && temp_hunger < capacity ) ) {
         int room = (capacity - temp_hunger);
@@ -9226,6 +9232,7 @@ int player::warmth(body_part bp)
         ret += 10;
     }
 
+    // Apply warmth value of clothing
     for (int i = 0; i < worn.size(); i++)
     {
         armor = dynamic_cast<it_armor*>(worn[i].type);
@@ -9233,17 +9240,93 @@ int player::warmth(body_part bp)
         if (armor->covers & mfb(bp))
         {
             warmth = armor->warmth;
+
             // Wool items do not lose their warmth in the rain
             if (!worn[i].made_of("wool"))
             {
                 warmth *= 1.0 - (float)bodywetness / 100.0;
             }
+
             ret += warmth;
         }
     }
+
     return ret;
 }
 
+int player::wind_penalty(body_part bp)
+{
+    int ret = 0;
+    int wind_power = g->get_wind_power(posx, posy);
+    int temperature = g->get_temperature();
+    it_armor* armor = NULL;
+    it_armor* armor_greatest_coverage = NULL;
+    it_armor* armor_best_material = NULL
+    int wind_resistance_index = 0;
+
+    // Loop over clothing to find out
+    // (1) the material of the piece covering the greatest area
+    // (2) the strongest material and the area it covers
+    // at the moment, cotton/wool are "bad", everything else is "good"
+    for (int i = 0; i < worn.size(); i++)
+    {
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+        if (armor->covers & mfb(bp))
+        {
+            int material_bonus = 0;
+            if (armor->m1 != "wool" && armor->m1 != "cotton")
+            {
+                material_bonus = 3;
+            }
+            else
+            {
+                material_bonus = 1;
+            }
+            // wind_resistance_index += (warmth / 10 + material bonus) * (coverage / 100)
+        }
+
+
+        /*
+        armor = dynamic_cast<it_armor*>(worn[i].type);
+        if (armor->covers & mfb(bp))
+        {
+            // (1) covers the greatest area
+            if (armor_greatest_coverage == NULL || armor->coverage > armor_greatest_coverage->coverage)
+            {
+                armor_greatest_coverage = armor;
+            }
+
+            // (2) best material
+            /// If our best armor is NULL OR
+            // anything is better than nothing
+            /// If our best armor is wool or cotton and our looped armor is not OR
+            // anything else is better than wool/cotton
+            /// If our best armor is wool or cotton and our looped armor has better coverage than our best armor
+            // take the crappy material armor with best coverage
+            /// If our looped armor is not wool and not cotton and has better coverage than our best armor OR
+            // by now, our best armor is not wool/cotton, so we are looking for best coverage
+            if (armor_best_material == NULL ||
+               (armor->m1 != "wool" && armor->m1 != "cotton" && armor->coverage > armor_best_material->coverage))
+            {
+                armor_best_material = armor;
+            }
+            // If our best item is wool or cotton, take the one with most coverage
+            else if (armor_best_material != NULL && (armor_best_material->m1 == "wool" || armor_best_material->m1 == "cotton") && armor->coverage > armor_best_material->coverage)
+            {
+                armor_best_material = armor;
+            }
+
+
+            std::string material1 = armor->m1;
+            std::string material2 = armor->m2;
+            int current_coverage_value = armor->coverage;
+            max_coverage_value = std::max(current_coverage_value, max_coverage_value);
+        }
+        */
+    }
+
+    return ret;
+}
 int player::encumb(body_part bp) {
  int iArmorEnc = 0;
  double iLayers = 0;

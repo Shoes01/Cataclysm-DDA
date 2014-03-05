@@ -417,6 +417,7 @@ public:
  hint_rating rate_action_disassemble(item *it);
 
  int warmth(body_part bp); // Warmth provided by armor &c
+ int wind_penalty(body_part bp); // Warmth lost due to wind, protected by &c
  int encumb(body_part bp); // Encumbrance from armor &c
  int encumb(body_part bp, double &layers, int &armorenc);
  int get_armor_bash(body_part bp); // Bashing resistance, from creature

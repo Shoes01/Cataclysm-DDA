@@ -84,6 +84,7 @@ struct weather_datum
  int light_modifier; // Modification to ambient light
  int mintime, maxtime; // min/max time it lasts, in minutes
  bool dangerous; // If true, our activity gets interrupted
+ int max_wind_strength; // Maximum wind strength
  void (weather_effect::*effect)();
 };
 

@@ -209,10 +209,10 @@ void game::load_data_from_dir(const std::string &path) {
         // Process the lua mod file before the .json files,
         // so that custom IUSE's will be present when the
         // item definitions are parsed.
-        
+
         lua_loadmod(lua_state, path, "main.lua");
     #endif
-    
+
     try {
         DynamicDataLoader::get_instance().load_data_from_path(path);
     } catch(std::string &err) {
@@ -1739,6 +1739,21 @@ void game::update_weather()
             new_weather.temperature = prev_weather.temperature + rng(-1, 1);
         }
 
+        // Now update wind
+        int max_wind_power = weather_data[weather].max_wind_strength;
+        if (one_in(4))
+        { // 1 in 4 of no wind
+            wind_power = 0;
+        }
+        else if (!one_in(4))
+        { // 3 in 4 of wind being less or equal to max
+            wind_power = rng(0, max_wind_power);
+        }
+        else
+        { // 1 in 4 of being max strength
+            wind_power = max_wind_power;
+        }
+
         if (turn.is_night())
         {
             new_weather.temperature += rng(-2, 1);
@@ -1780,6 +1795,18 @@ int game::get_temperature()
     tmp_temperature += m.temperature(u.posx, u.posy);
 
     return tmp_temperature;
+}
+
+int game::get_wind_power(int x, int y)
+{
+    if (m.is_outside(x, y))
+    {
+        return wind_power;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 int game::assign_mission_id()
@@ -11854,7 +11881,7 @@ bool game::plmove(int dx, int dy)
                mon_at(fdest.x, fdest.y) == -1 &&
                m.has_flag("FLAT", fdest.x, fdest.y) &&
                !m.has_furn(fdest.x, fdest.y) &&
-               m.veh_at(fdest.x, fdest.y)== NULL && 
+               m.veh_at(fdest.x, fdest.y)== NULL &&
                m.tr_at(fdest.x, fdest.y) == tr_null
           );
 

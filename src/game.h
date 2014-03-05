@@ -361,6 +361,8 @@ public:
   calendar turn;
   signed char temperature;              // The air temperature
   int get_temperature();    // Returns outdoor or indoor temperature of current location
+  signed char wind_power;   // The wind power
+  int get_wind_power(int x, int y);     // Returns the outdoor or indoor wind power (indoor is 0)
   weather_type weather;   // Weather pattern--SEE weather.h
   bool lightning_active;
 
