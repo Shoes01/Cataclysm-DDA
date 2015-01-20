@@ -6745,7 +6745,7 @@ void game::add_footstep(int x, int y, int volume, int distance, monster *source)
     footsteps_source.push_back(source->pos());
 }
 
-void game::do_blast(const int x, const int y, const int power, const int radius, const bool fire)
+void game::do_blast(const int x, const int y, const int power, const int radius, const int type)
 {
     int dam;
     for (int i = x - radius; i <= x + radius; i++) {
@@ -6767,7 +6767,7 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
             int vpart;
             vehicle *veh = m.veh_at(i, j, vpart);
             if (veh) {
-                veh->damage(vpart, dam, fire ? 2 : 1, false);
+                veh->damage(vpart, dam, EXPLOSION_FIRE ? 2 : 1, false);
             }
 
             player *n = nullptr;
@@ -6785,18 +6785,31 @@ void game::do_blast(const int x, const int y, const int power, const int radius,
                 n->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
                 n->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( dam / 3, dam ) ) );
             }
-            if (fire) {
+            if (EXPLOSION_FIRE) {
                 m.add_field(i, j, fd_fire, dam / 10);
+            }
+            if (EXPLOSION_ice) {
+                /**
+                
+                // These tiles need to be made up first
+                
+                m.add_field(i, j, fd_frost, dam / 10);
+                if (one_in(3))
+                m.add_field(i, j, fd_ice_mist, dam / 10);
+                if (one_in(3))
+                m.add_field(i, j, fd_ice_floor, dam / 10);
+                
+                **/
             }
         }
     }
 }
 
-void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blast)
+void game::explosion(int x, int y, int power, int shrapnel, int type, bool blast)
 {
     int radius = int(sqrt(double(power / 4)));
     int dam;
-    int noise = power * (fire ? 2 : 10);
+    int noise = power * (type == EXPLOSION_FIRE ? 2 : 10);
 
     if (power >= 30) {
         sound(x, y, noise, _("a huge explosion!"));
@@ -6806,9 +6819,13 @@ void game::explosion(int x, int y, int power, int shrapnel, bool fire, bool blas
         sound(x, y, 3, _("a loud pop!"));
     }
     if (blast) {
-        do_blast(x, y, power, radius, fire);
+        do_blast(x, y, power, radius, type);
         // Draw the explosion
-        draw_explosion(x, y, radius, c_red);
+        if (type == EXPLOSION_FIRE || type == EXPLOSION_NORMAL) {
+            draw_explosion(x, y, radius, c_red);
+        } else if (type == EXPLOSION_ICE) {
+            draw_explosion(x, y, radius, c_blue);
+        }               
     }
 
     // The rest of the function is shrapnel

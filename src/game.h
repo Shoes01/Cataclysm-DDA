@@ -77,6 +77,14 @@ enum target_mode {
     TARGET_MODE_TURRET
 };
 
+enum explosion_type {
+    EXPLOSION_NORMAL = 0,     // Regular explosion
+    EXPLOSION_FIRE,     // Leave fire behind
+    EXPLOSION_ICE,      // Colored blue, leave ice/frost beind
+    // EXPLOSION_ACID,  // Not yet implemented, but is the next logical step.
+    EXPLOSION_ERROR
+};
+
 // Refactoring into base monster class.
 
 struct monster_and_count {
@@ -184,7 +192,7 @@ class game
         /** Draws visual footstep cues to monsters moving out of the players sight. */
         void draw_footsteps();
         /** Create explosion at (x, y) of intensity (power) with (shrapnel) chunks of shrapnel. */
-        void explosion(int x, int y, int power, int shrapnel, bool fire, bool blast = true);
+        void explosion(int x, int y, int power, int shrapnel, int type = EXPLOSION_NORMAL, bool blast = true);
         /** Triggers a flashbang explosion at (x, y). */
         void flashbang(int x, int y, bool player_immune = false);
         /** Moves the player vertically. If force == true then they are falling. */
@@ -467,7 +475,7 @@ class game
         bionic_id random_good_bionic() const; // returns a non-faulty, valid bionic
 
         // Helper because explosion was getting too big.
-        void do_blast( const int x, const int y, const int power, const int radius, const bool fire );
+        void do_blast( const int x, const int y, const int power, const int radius, const int type = EXPLOSION_NORMAL );
 
         // Knockback functions: knock target at (tx,ty) along a line, either calculated
         // from source position (sx,sy) using force parameter or passed as an argument;
